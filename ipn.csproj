@@ -36,8 +36,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include=".\src\Twispay.cs" />
-    <Compile Include=".\src\TwispaySample.cs" />
-    <Compile Include=".\src\twispayIpn.cs" />
+    <Compile Include=".\example\twispayIpn.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
