@@ -13,7 +13,7 @@ public class Program
                siteId = 1,
                customer = new
                {
-                   identifier = "identifier",
+                   identifier = "external-user-id",
                    firstName = "John ",
                    lastName = "Doe",
                    country = "US",
