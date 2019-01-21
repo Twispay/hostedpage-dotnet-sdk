@@ -4,13 +4,40 @@ using System.Security.Cryptography;
 using System.Text;
 using System.IO;
 
+/*
+The Twispay class implements methods to get the value
+of `jsonRequest` and `checksum` that need to be sent by POST
+when making a Twispay order and to decrypt the Twispay IPN response.
+*/
+/// <summary>
+/// The <c>Twispay</c> class implements methods to get the value
+/// of `jsonRequest` and `checksum` that need to be sent by POST
+/// when making a Twispay order and to decrypt the Twispay IPN response.
+/// </summary>
 public static class Twispay
 {
+    // Get the `jsonRequest` parameter (order parameters as JSON and base64 encoded).
+    /// <summary>
+    /// Get the `jsonRequest` parameter (order parameters as JSON and base64 encoded).
+    /// </summary>
+    /// <returns>
+    /// The `jsonRequest` parameter as string.
+    /// </returns>
+    /// <param name="orderData">The order parameters.</param>
     public static string GetBase64JsonRequest(object orderData)
     {
         return System.Convert.ToBase64String(Encoding.UTF8.GetBytes(SerializeToJson(orderData)));
     }
 
+    // Get the `checksum` parameter (the checksum computed over the `jsonRequest` and base64 encoded).
+    /// <summary>
+    /// Get the `checksum` parameter (the checksum computed over the `jsonRequest` and base64 encoded).
+    /// </summary>
+    /// <returns>
+    /// The `checksum` parameter as string.
+    /// </returns>
+    /// <param name="orderData">The order parameters.</param>
+    /// <param name="secretKey">The secret key (from Twispay).</param>
     public static string GetBase64Checksum(object orderData, byte[] secretKey)
     {
         string jsonData = SerializeToJson(orderData);
@@ -21,6 +48,14 @@ public static class Twispay
         return System.Convert.ToBase64String(hmacSha512.Hash);
     }
 
+    // Serialize object to JSON.
+    /// <summary>
+    /// Serialize object to JSON.
+    /// </summary>
+    /// <returns>
+    /// The serialized object as JSON string.
+    /// </returns>
+    /// <param name="o">The object to be serialized.</param>
     private static string SerializeToJson(object o)
     {
         StringWriter writer = new StringWriter();
@@ -30,18 +65,15 @@ public static class Twispay
         return writer.ToString();
     }
 
-    public static string GetHtmlOrderForm(object orderData, byte[] secretKey, bool twispayLive = false)
-    {
-        string base64JsonRequest = GetBase64JsonRequest(orderData);
-        string base64Checksum = GetBase64Checksum(orderData, secretKey);
-        string hostName = twispayLive ? "secure.twispay.com" : "secure-stage.twispay.com";
-        return @"<form action=""https://""" + hostName + @""""" method=""post"" accept-charset=""UTF-8"">
-                <input type=""hidden"" name=""jsonRequest"" value=""" + base64JsonRequest + @""">
-                <input type=""hidden"" name=""checksum"" value=""" + base64Checksum + @""">
-                <input type=""submit"" value=""Pay"">
-            </form>";
-    }
-
+    // Decrypt the IPN response from Twispay.
+    /// <summary>
+    /// Decrypt the IPN response from Twispay.
+    /// </summary>
+    /// <returns>
+    /// The descrypted IPN response as object.
+    /// </returns>
+    /// <param name="encryptedIpnResponse">The encrypted IPN response.</param>
+    /// <param name="secretKey">The secret key (from Twispay).</param>
     public static object DecryptIpnResponse(string encryptedIpnResponse, byte[] secretKey)
     {
         // get the IV and the encrypted data

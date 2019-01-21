@@ -8,6 +8,9 @@ public class Program
 {
     public static void Main(string[] args)
     {
+        // sample data contains all available parameters
+        // depending on order type, not all parameters are required/needed
+        // you need to replace `siteId` etc. with valid data
         object orderData = new
            {
                siteId = 1,
