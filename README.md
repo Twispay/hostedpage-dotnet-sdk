@@ -9,7 +9,7 @@ object orderData = new
    siteId = 1,
    customer = new
    {
-       identifier = "identifier",
+       identifier = "external-user-id",
        firstName = "John ",
        lastName = "Doe",
        country = "US",
@@ -23,17 +23,12 @@ object orderData = new
    order = new
    {
        orderId = "external-order-id",
-       type = "recurring",
+       type = "purchase",
        amount = 2194.99,
        currency = "USD",
-       description = "1 year subscription on site",
-       intervalType = "month",
-       intervalValue = 1,
-       trialAmount = 1,
-       firstBillDate = "2020-10-02T12:00:00+00:00"
+       description = "1 year subscription on site"
    },
    cardTransactionMode = "authAndCapture",
-   cardId = 1,
    invoiceEmail = "john.doe@test.com",
    backUrl = "http://google.com"
 };
