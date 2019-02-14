@@ -38,6 +38,9 @@ public class Program
                    type = "recurring", // mandatory; one of: purchase, recurring, managed
                    amount = 2194.99, // mandatory
                    currency = "USD", // mandatory
+
+                   // use description or items; for airlines or tourism the items is mandatory
+                   description = "product or service description",
                    items = new object[] {
                        new {
                            item = "1 year subscription on site",
