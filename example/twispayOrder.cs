@@ -32,7 +32,7 @@ public class Program
                        "customer_tag_2"
                    }
                },
-               order = new
+               order = new // mandatory
                {
                    orderId = "external-order-id", // mandatory
                    type = "recurring", // mandatory; one of: purchase, recurring, managed
@@ -41,7 +41,7 @@ public class Program
 
                    // use description or items; for airlines or tourism the items is mandatory
                    description = "product or service description",
-                   items = new object[] {
+                   items = new object[] { // an array of item object; add any number of items on the cart
                        new {
                            item = "1 year subscription on site",
                            unitPrice = 34.99,
