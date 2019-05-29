@@ -87,7 +87,7 @@ public static class Twispay
         aes.IV = iv;
         aes.Key = secretKey;
         aes.Mode = CipherMode.CBC;
-        aes.Padding = PaddingMode.Zeros;
+        aes.Padding = PaddingMode.PKCS7;
         byte[] decryptedIpnResponse = aes.CreateDecryptor().TransformFinalBlock(encryptedData, 0, encryptedData.Length);
         return JsonConvert.DeserializeObject(Encoding.UTF8.GetString(decryptedIpnResponse));
     }
